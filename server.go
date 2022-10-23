@@ -102,9 +102,6 @@ type Server interface {
 	// Start 用于在内部实现网络端口的监听和接收连接，
 	// 并完成一个Channel的初始化过程。
 	Start() error
-	// Push消息到指定的Channel中
-	// 	string channelID
-	// 	[]byte 序列化之后的消息数据
 	Push(string, []byte) error
 	// Shutdown 服务下线，关闭连接
 	Shutdown(context.Context) error
