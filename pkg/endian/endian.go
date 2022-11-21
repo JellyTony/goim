@@ -17,7 +17,7 @@ func ReadUint8(r io.Reader) (uint8, error) {
 	if _, err := io.ReadFull(r, bytes); err != nil {
 		return 0, err
 	}
-	return uint8(bytes[0]), nil
+	return bytes[0], nil
 }
 
 // ReadUint32 从 reader 中读取一个 uint32
@@ -82,7 +82,7 @@ func ReadFixedBytes(len int, r io.Reader) ([]byte, error) {
 
 // WriteUint8 写一个 uint8到 writer 中
 func WriteUint8(w io.Writer, val uint8) error {
-	buf := []byte{byte(val)}
+	buf := []byte{val}
 	if _, err := w.Write(buf); err != nil {
 		return err
 	}

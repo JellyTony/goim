@@ -4,8 +4,6 @@ import (
 	"context"
 	"net"
 	"time"
-
-	"github.com/JellyTony/goim/naming"
 )
 
 var (
@@ -85,9 +83,28 @@ type Frame interface {
 	GetPayload() []byte
 }
 
+// Service 定义了基础服务的抽象接口
+type Service interface {
+	ServiceID() string
+	ServiceName() string
+	GetMeta() map[string]string
+}
+
+// ServiceRegistration 定义服务注册的抽象接口
+type ServiceRegistration interface {
+	Service
+	PublicAddress() string
+	PublicPort() int
+	DialURL() string
+	GetTags() []string
+	GetProtocol() string
+	GetNamespace() string
+	String() string
+}
+
 // Server 定义了一个tcp/websocket不同协议通用的服务端的接口
 type Server interface {
-	naming.ServiceRegistration
+	ServiceRegistration
 	// SetAcceptor 设置Acceptor
 	SetAcceptor(Acceptor)
 	//SetMessageListener 设置上行消息监听器
@@ -123,8 +140,7 @@ type Dialer interface {
 
 // Client is interface of client side
 type Client interface {
-	ID() string
-	Name() string
+	Service
 	Connect(string) error
 	SetDialer(Dialer)
 	Send([]byte) error
